@@ -21,7 +21,7 @@ public class Main {
 		// IProblema problema = new Problema6();
 
 		for (int i = 0; i < 30; i++) {
-			PSO pso = new PSO(100,1000,0.5, problema, 0.4, 0.6);
+			PSO pso = new PSO(100,100,0.3, problema, 0.5, 0.8);
 			pso.run();
 		}
 	}
