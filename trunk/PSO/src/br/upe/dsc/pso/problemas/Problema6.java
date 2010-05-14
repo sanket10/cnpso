@@ -1,6 +1,6 @@
 package br.upe.dsc.pso.problemas;
 
-public class Problema6 implements IProblema {
+public class Problema6 implements IProblem {
 	
 	public double getFitness(Double... dimensao) {
 		return 0.7 + dimensao[0] * dimensao[0] + 2 * dimensao[1] * dimensao[1] - 0.3 * Math.cos(3 * Math.PI * dimensao[0]) - 0.4 * Math.cos(4 * Math.PI * dimensao[1]);
