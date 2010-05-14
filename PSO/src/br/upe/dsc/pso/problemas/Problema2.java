@@ -1,6 +1,6 @@
 package br.upe.dsc.pso.problemas;
 
-public class Problema2 implements IProblema{
+public class Problema2 implements IProblem{
 	
 	@Override
 	public boolean comparaFitness(Double fitnessPBest, Double fitnessPosicaoAtual) {

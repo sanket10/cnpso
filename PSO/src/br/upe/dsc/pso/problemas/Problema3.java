@@ -1,6 +1,6 @@
 package br.upe.dsc.pso.problemas;
 
-public class Problema3 implements IProblema {
+public class Problema3 implements IProblem {
 	@Override
 	public double getFitness(Double... dimensao) {
 		double result = 0;

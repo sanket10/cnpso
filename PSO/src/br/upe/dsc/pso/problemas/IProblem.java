@@ -1,6 +1,6 @@
 package br.upe.dsc.pso.problemas;
 
-public interface IProblema {
+public interface IProblem {
 	static final double VALOR_MIN_DIMENSAO = 0.01;
 	
 	double getFitness(Double... dimensao);
