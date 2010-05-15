@@ -5,112 +5,109 @@ import java.util.Random;
 import br.upe.dsc.pso.problemas.IProblem;
 
 public class Particle {
-	private int dimensoes;
-	private Double[] posicaoAtual;
+	private int dimensions;
+	private Double[] currentPosition;
 	private Double[] pBest;
-	private Double[] velocidade;
+	private Double[] velocity;
 
 	/**
-	 * Cria uma nova partícula.
+	 * Creates a new particle.
 	 * 
-	 * @param dimensoes
-	 *            Número de dimensões do espaço de busca.
+	 * @param dimensions Number of dimensions in the search space.
 	 */
-	public Particle(int dimensoes) {
-		this.dimensoes = dimensoes;
-		posicaoAtual = new Double[dimensoes];
-		pBest = new Double[dimensoes];
-		velocidade = new Double[dimensoes];
+	public Particle(int dimensions) {
+		this.dimensions = dimensions;
+		currentPosition = new Double[dimensions];
+		pBest = new Double[dimensions];
+		velocity = new Double[dimensions];
 	}
 
 	/**
-	 * Retorna a posição atual da partícula.
+	 * Returns the current position of the particle.
 	 * 
-	 * @return A posição atual da partícula.
+	 * @return The current position of the particle.
 	 */
-	public Double[] getPosicaoAtual() {
-		return posicaoAtual;
+	public Double[] getCurrentPosition() {
+		return currentPosition;
 	}
 
 	/**
-	 * Atribui a posição atual da partícula.
+	 * Sets the current positions of the particle.
 	 * 
-	 * @param currentPosition
-	 *            a posição atual da partícula.
+	 * @param currentPosition The current positions of the particle.
 	 */
-	public void setPosicaoAtual(Double[] posicaoAtual) {
-		this.posicaoAtual = posicaoAtual;
+	public void setCurrentPosition(Double[] currentPosition) {
+		this.currentPosition = currentPosition;
 	}
 
 	/**
-	 * Retorna a melhor posição já encontrada pela partícula.
+	 * Returns the best position found by the particle.
 	 * 
-	 * @return A melhor posição já encontrada pela partícula.
+	 * @return The best position found by the particle.
 	 */
 	public Double[] getPBest() {
 		return pBest;
 	}
 
 	/**
-	 * Atribui a melhor posição já encontrada pela partícula.
+	 * Sets the best position found by the particle.
 	 * 
-	 * @param melhorPosicao
-	 *            a melhor posição já encontrada pela partícula.
+	 * @param bestPosition The best position found by the particle.
 	 */
-	public void setPBest(Double[] melhorPosicao) {
-		this.pBest = melhorPosicao;
+	public void setPBest(Double[] bestPosition) {
+		this.pBest = bestPosition;
 	}
 
 	/**
-	 * Retorna a velocidade atual da partícula. Dimension
+	 * Return the current velocity of the particle.
 	 * 
-	 * @return A velocidade atual da partícula.
+	 * @return The current velocity of the particle.
 	 */
-	public Double[] getVelocidade() {
-		return velocidade;
+	public Double[] getVelocity() {
+		return velocity;
 	}
 
 	/**
-	 * Atribui a velocidade atual da partícula.
+	 * Sets the current velocity of the particle.
 	 * 
-	 * @param velocidade
-	 *            a velocidade atual da partícula.
+	 * @param velocity The current velocity of the particle.
 	 */
-	public void setVelocidade(Double[] velocidade) {
-		this.velocidade = velocidade;
+	public void setVelocity(Double[] velocity) {
+		this.velocity = velocity;
 	}
 
 	/**
-	 * Atualiza a velocidade atual da partícula.
+	 * Updates the current velocity of the particle.
 	 * 
-	 * @param melhorParticulaVizinhanca
-	 *            A partícula da vizinhança desta partícula que possui a melhor
-	 *            posição.
+	 * @param inertialWeight The inertial weight 
+	 * @param bestParticleNeighborhood The best particle in the neighborhood
+	 * @param C1 The cognitive component
+	 * @param C2 The social component
 	 */
-	public void atualizarVelocidade(double inercialWeight,
-			Double[] posicaoMelhorParticulaVizinhanca, Double C1, Double C2) {
+	public void updateVelocity(double inertialWeight,
+			Double[] bestParticleNeighborhood, Double C1, Double C2) {
 		Random random = new Random();
 		Double R1 = random.nextDouble();
 		Double R2 = random.nextDouble();
 
-		for (int i = 0; i < dimensoes; i++) {
-			velocidade[i] = inercialWeight * velocidade[i] + C1 * R1
-					* (pBest[i] - posicaoAtual[i]) + C2 * R2
-					* (posicaoMelhorParticulaVizinhanca[i] - posicaoAtual[i]);
+		for (int i = 0; i < dimensions; i++) {
+			velocity[i] = inertialWeight * velocity[i] + C1 * R1
+					* (pBest[i] - currentPosition[i]) + C2 * R2
+					* (bestParticleNeighborhood[i] - currentPosition[i]);
 		}
 	}
 
 	/**
-	 * Atualiza a posição atual da partícula.
+	 * Updates the current position of the particle.
 	 */
-	public void atualizarPosicaoAtual(IProblem problema) {
-		for (int i = 0; i < dimensoes; i++) {
-			posicaoAtual[i] = posicaoAtual[i] + velocidade[i];
+	public void updateCurrentPosition(IProblem problem) {
+		for (int i = 0; i < dimensions; i++) {
+			currentPosition[i] = currentPosition[i] + velocity[i];
 
-			posicaoAtual[i] = (posicaoAtual[i] <= problema.getLimiteSuperior(i)) ? posicaoAtual[i]
-					: problema.getLimiteSuperior(i);
-			posicaoAtual[i] = (posicaoAtual[i] >= problema.getLimiteInferior(i)) ? posicaoAtual[i]
-					: problema.getLimiteInferior(i);
+			currentPosition[i] = (currentPosition[i] <= problem.getUpperLimit(i)) ? currentPosition[i]
+					: problem.getUpperLimit(i);
+			currentPosition[i] = (currentPosition[i] >= problem.getLowerLimit(i)) ? currentPosition[i]
+					: problem.getLowerLimit(i);
 		}
 	}
 }
