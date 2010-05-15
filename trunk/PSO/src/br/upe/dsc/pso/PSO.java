@@ -5,6 +5,9 @@ import java.util.Random;
 import br.upe.dsc.pso.problemas.IProblem;
 
 public class PSO {
+	private final double INITIAL_WEIGHT = 0.9;
+	private final double FINAL_WEIGHT = 0.4;
+	
 	private int dimensions;
 	private int swarmSize;
 	private Particle swarm[];
@@ -12,10 +15,9 @@ public class PSO {
 	private Double C1;
 	private Double C2;
 	private IProblem problem;
-	// Fator de inércia atual
-	private double inercialWeight;
-	private final double WINI = 0.9;
-	private final double WFIM = 0.4;
+	
+	// Current inertia factor
+	private double inertiaWeight;
 	private double iteration;
 	private double maxIterations;
 	private double standardDeviation;
@@ -24,7 +26,7 @@ public class PSO {
 	public PSO(int swarmSize, int maxIterations, double standardDeviation,
 			IProblem problem, Double C1, Double C2) {
 
-		this.dimensions = problem.getNumeroDimensoes();
+		this.dimensions = problem.getDimensionsNumber();
 		this.swarmSize = swarmSize;
 		this.swarm = new Particle[swarmSize];
 		this.allFitness = new double[swarmSize];
@@ -32,7 +34,7 @@ public class PSO {
 		this.problem = problem;
 		this.C1 = C1;
 		this.C2 = C2;
-		this.inercialWeight = WINI;
+		this.inertiaWeight = INITIAL_WEIGHT;
 		this.maxIterations = maxIterations;
 		this.standardDeviation = standardDeviation;
 	}
@@ -45,21 +47,21 @@ public class PSO {
 			iterar();
 
 			standardDeviation = Statistics.getStandardDeviation(allFitness);
-			System.out.println("PESO: " + inercialWeight);
+			System.out.println("WEIGTH: " + inertiaWeight);
 			if (standardDeviation < this.standardDeviation)
 				break;
 		}
 
-		System.out.println("Melhor posição: " + problem.getFitness(gBest));
+		System.out.println("Best position: " + problem.getFitness(gBest));
 	}
 
 	private void init() {
 		for (int i = 0; i < swarmSize; i++) {
-			Particle particula = new Particle(dimensions);
-			particula.setPosicaoAtual(getPosicaoInicial());
-			particula.setPBest(particula.getPosicaoAtual());
-			particula.setVelocidade(getZero());
-			swarm[i] = particula;
+			Particle particle = new Particle(dimensions);
+			particle.setCurrentPosition(getPosicaoInicial());
+			particle.setPBest(particle.getCurrentPosition());
+			particle.setVelocity(getZero());
+			swarm[i] = particle;
 		}
 	}
 
@@ -76,7 +78,7 @@ public class PSO {
 			Particle particula = this.swarm[i];
 
 			updateParticleVelocity(particula, i);
-			particula.atualizarPosicaoAtual(this.problem);
+			particula.updateCurrentPosition(this.problem);
 		}
 	}
 
@@ -84,14 +86,14 @@ public class PSO {
 		Particle melhorParticulaVizinhanca;
 
 		melhorParticulaVizinhanca = this.swarm[melhorPosicaoVizinhanca(indice)];
-		particulaAtual.atualizarVelocidade(this.inercialWeight,
+		particulaAtual.updateVelocity(this.inertiaWeight,
 				melhorParticulaVizinhanca.getPBest(), this.C1, this.C2);
 		
 		double percentcomplete = (this.iteration / this.maxIterations);
-		this.inercialWeight -= this.inercialWeight*percentcomplete;
+		this.inertiaWeight -= this.inertiaWeight*percentcomplete;
 		
-		if(inercialWeight < WFIM) 
-			inercialWeight = WFIM;
+		if(inertiaWeight < FINAL_WEIGHT) 
+			inertiaWeight = FINAL_WEIGHT;
 	}
 
 	private int melhorPosicaoVizinhanca(int indice) {
@@ -111,13 +113,13 @@ public class PSO {
 
 		melhor = fitnessPBestParticulaAtual;
 
-		if (this.problem.comparaFitness(melhor,
+		if (this.problem.compareFitness(melhor,
 				fitnessPBestParticulaVizinhoEsquerda)) {
 			indiceMelhorParticula = indiceVizinhoEsquerda;
 			melhor = fitnessPBestParticulaVizinhoEsquerda;
 		}
 
-		if (this.problem.comparaFitness(melhor,
+		if (this.problem.compareFitness(melhor,
 				fitnessPBestParticulaVizinhoDireita)) {
 			indiceMelhorParticula = indiceVizinhoDireita;
 		}
@@ -126,13 +128,13 @@ public class PSO {
 	}
 
 	private double calcularPBest(Particle particula) {
-		Double[] posicaoAtual = particula.getPosicaoAtual();
+		Double[] posicaoAtual = particula.getCurrentPosition();
 		Double[] pBest = particula.getPBest();
 
 		Double fitnessPosicaoAtual = this.problem.getFitness(posicaoAtual);
 		Double fitnessPBest = this.problem.getFitness(pBest);
 
-		if (this.problem.comparaFitness(fitnessPBest, fitnessPosicaoAtual)) {
+		if (this.problem.compareFitness(fitnessPBest, fitnessPosicaoAtual)) {
 			particula.setPBest(posicaoAtual);
 			return fitnessPosicaoAtual;
 		} else {
@@ -146,7 +148,7 @@ public class PSO {
 		Double fitnessPBest = this.problem.getFitness(pBest);
 		Double fitnessGBest = this.problem.getFitness(this.gBest);
 
-		if (this.problem.comparaFitness(fitnessGBest, fitnessPBest)) {
+		if (this.problem.compareFitness(fitnessGBest, fitnessPBest)) {
 			this.gBest = pBest;
 		}
 	}
@@ -158,14 +160,14 @@ public class PSO {
 		for (int i = 0; i < this.dimensions; i++) {
 			double value = random.nextDouble();
 
-			posicao[i] = (this.problem.getLimiteSuperior(i) - this.problem
-					.getLimiteInferior(i))
-					* value + this.problem.getLimiteInferior(i);
+			posicao[i] = (this.problem.getUpperLimit(i) - this.problem
+					.getLowerLimit(i))
+					* value + this.problem.getLowerLimit(i);
 
-			posicao[i] = (posicao[i] <= this.problem.getLimiteSuperior(i)) ? posicao[i]
-					: this.problem.getLimiteSuperior(i);
-			posicao[i] = (posicao[i] >= this.problem.getLimiteInferior(i)) ? posicao[i]
-					: this.problem.getLimiteInferior(i);
+			posicao[i] = (posicao[i] <= this.problem.getUpperLimit(i)) ? posicao[i]
+					: this.problem.getUpperLimit(i);
+			posicao[i] = (posicao[i] >= this.problem.getLowerLimit(i)) ? posicao[i]
+					: this.problem.getLowerLimit(i);
 		}
 
 		return posicao;
