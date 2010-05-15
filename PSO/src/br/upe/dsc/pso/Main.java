@@ -13,12 +13,12 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		// IProblema problem = new Problema1();
-		// IProblema problem = new Problema2();
-		// IProblema problem = new Problema3();
-		// IProblema problem = new Problema4();
-		IProblem problem = new Problem5();
-		// IProblema problema = new Problema6();
+		// IProblem problem = new Problem1();
+		// IProblem problem = new Problem2();
+		// IProblem problem = new Problem3();
+		 IProblem problem = new Problem4();
+		// IProblem problem = new Problem5();
+		// IProblem problem = new Problem6();
 
 		for (int i = 0; i < 30; i++) {
 			PSO pso = new PSO(100,100,0.3, problem, 0.5, 0.8);
