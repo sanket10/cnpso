@@ -76,6 +76,15 @@ public class Particle {
 		this.velocity = velocity;
 	}
 
+	public void updatePBest(IProblem problem) {
+		Double currentPositionFitness = problem.getFitness(currentPosition);
+		Double pBestFitness = problem.getFitness(pBest);
+
+		if (problem.compareFitness(pBestFitness, currentPositionFitness)) {
+			pBest = currentPosition;
+		}
+	}
+	
 	/**
 	 * Updates the current velocity of the particle.
 	 * 
