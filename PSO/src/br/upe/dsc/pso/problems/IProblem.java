@@ -1,15 +1,15 @@
-package br.upe.dsc.pso.problemas;
+package br.upe.dsc.pso.problems;
 
 public interface IProblem {
-	static final double VALOR_MIN_DIMENSAO = 0.01;
+	static final double MINIMUM_DIMENSION_VALUE = 0.01;
 	
-	double getFitness(Double... dimensao);
+	int getDimensionsNumber();
 	
-	boolean comparaFitness(Double fitnessPBest, Double fitnessPosicaoAtual);
+	double getLowerLimit(int dimension);
 	
-	int getNumeroDimensoes();
+	double getUpperLimit(int dimension);
 	
-	double getLimiteInferior(int dimensao);
+	boolean compareFitness(Double pBestFitness, Double currentPositionFitness);
 	
-	double getLimiteSuperior(int dimensao);
+	double getFitness(Double... dimension);
 }
