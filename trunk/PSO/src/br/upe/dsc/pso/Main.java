@@ -16,7 +16,7 @@ public class Main {
 		// IProblem problem = new Problem2();
 		// IProblem problem = new Problem3();
 		// IProblem problem = new Problem4();
-		 IProblem problem = new Problem5();
+		IProblem problem = new Problem5();
 		// IProblem problem = new Problem6();
 
 		for (int i = 0; i < 30; i++) {
