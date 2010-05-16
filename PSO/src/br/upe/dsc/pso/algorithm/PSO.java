@@ -1,8 +1,9 @@
-package br.upe.dsc.pso;
+package br.upe.dsc.pso.algorithm;
 
 import java.util.Random;
 
 import br.upe.dsc.pso.problems.IProblem;
+import br.upe.dsc.pso.view.SwarmObserver;
 
 public abstract class PSO {
 
@@ -12,6 +13,7 @@ public abstract class PSO {
 	private int dimensions;
 	private Double C1;
 	private Double C2;
+	private SwarmObserver swarmObserver;
 	protected int swarmSize;
 	protected Particle swarm[];
 	protected Double[] gBest;
@@ -25,7 +27,7 @@ public abstract class PSO {
 	protected double[] allFitness;
 
 	public PSO(int swarmSize, int maxIterations, double standardDeviation,
-			IProblem problem, Double C1, Double C2) {
+			IProblem problem, Double C1, Double C2, SwarmObserver swarmObserver) {
 
 		this.dimensions = problem.getDimensionsNumber();
 		this.swarmSize = swarmSize;
@@ -38,6 +40,7 @@ public abstract class PSO {
 		this.inertialWeight = INITIAL_WEIGHT;
 		this.maxIterations = maxIterations;
 		this.standardDeviation = standardDeviation;
+		this.swarmObserver = swarmObserver;
 	}
 	
 	/**
@@ -52,7 +55,7 @@ public abstract class PSO {
 			iterate();
 
 			standardDeviation = Statistics.getStandardDeviation(allFitness);
-			System.out.println("WEIGTH: " + inertialWeight);
+//			System.out.println("WEIGTH: " + inertialWeight);
 			if (standardDeviation < this.standardDeviation)
 				break;
 		}
@@ -87,6 +90,8 @@ public abstract class PSO {
 			updateParticleVelocity(particle, i);
 			particle.updateCurrentPosition(problem);
 		}
+		
+		swarmObserver.update(swarm);
 	}
 	
 	protected void updateParticleVelocity(Particle currentParticle, int index) {
@@ -140,7 +145,7 @@ public abstract class PSO {
 		
 		for (int i = 0; i < this.dimensions; i++) {
 			
-			// The initial velocity should be a value between zero and one
+			// The initial velocity ought be a value between zero and one
 			velocity[i] = random.nextDouble();
 		}
 		

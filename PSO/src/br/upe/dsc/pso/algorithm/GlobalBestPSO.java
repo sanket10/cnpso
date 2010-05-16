@@ -1,13 +1,14 @@
-package br.upe.dsc.pso;
+package br.upe.dsc.pso.algorithm;
 
 import br.upe.dsc.pso.problems.IProblem;
+import br.upe.dsc.pso.view.SwarmObserver;
 
 public class GlobalBestPSO extends PSO {
 	
 	public GlobalBestPSO(int swarmSize, int maxIterations, double standardDeviation,
-			IProblem problem, Double C1, Double C2) {
+			IProblem problem, Double C1, Double C2, SwarmObserver swarmObserver) {
 
-		super(swarmSize, maxIterations, standardDeviation, problem, C1, C2);
+		super(swarmSize, maxIterations, standardDeviation, problem, C1, C2, swarmObserver);
 	}
 	
 	@Override
