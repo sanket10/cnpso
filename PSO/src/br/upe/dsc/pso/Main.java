@@ -17,7 +17,8 @@ public class Main {
 //		IProblem problem = new Problem6();
 
 		for (int i = 0; i < 30; i++) {
-			GlobalBestPSO pso = new GlobalBestPSO(100,100,0.3, problem, 0.5, 0.8);
+//			GlobalBestPSO pso = new GlobalBestPSO(100,100,0.3, problem, 0.5, 0.8);
+			LocalBestPSO pso = new LocalBestPSO(100,100,0.3, problem, 0.5, 0.8);
 			pso.run();
 		}
 	}

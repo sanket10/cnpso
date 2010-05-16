@@ -65,7 +65,7 @@ public abstract class PSO {
 			Particle particle = new Particle(dimensions);
 			particle.setCurrentPosition(getInitialPosition());
 			particle.setPBest(particle.getCurrentPosition());
-			particle.setVelocity(getZero());
+			particle.setVelocity(getInitialVelocity());
 			swarm[i] = particle;
 		}
 	}
@@ -141,7 +141,7 @@ public abstract class PSO {
 		for (int i = 0; i < this.dimensions; i++) {
 			
 			// The initial velocity should be a value between zero and one
-			velocity[i] = 1 / random.nextDouble();
+			velocity[i] = random.nextDouble();
 		}
 		
 		return velocity;
