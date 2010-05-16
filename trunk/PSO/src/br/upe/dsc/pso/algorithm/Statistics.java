@@ -1,4 +1,4 @@
-package br.upe.dsc.pso;
+package br.upe.dsc.pso.algorithm;
 
 public class Statistics {
 	
