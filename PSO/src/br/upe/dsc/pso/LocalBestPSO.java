@@ -2,9 +2,9 @@ package br.upe.dsc.pso;
 
 import java.util.Random;
 
-import br.upe.dsc.pso.problemas.IProblem;
+import br.upe.dsc.pso.problems.IProblem;
 
-public class PSO {
+public class LocalBestPSO implements IPSO {
 	private final double INITIAL_WEIGHT = 0.9;
 	private final double FINAL_WEIGHT = 0.4;
 	
@@ -17,13 +17,13 @@ public class PSO {
 	private IProblem problem;
 	
 	// Current inertia factor
-	private double inertiaWeight;
+	private double inertialWeight;
 	private double iteration;
 	private double maxIterations;
 	private double standardDeviation;
 	private double[] allFitness;
 
-	public PSO(int swarmSize, int maxIterations, double standardDeviation,
+	public LocalBestPSO(int swarmSize, int maxIterations, double standardDeviation,
 			IProblem problem, Double C1, Double C2) {
 
 		this.dimensions = problem.getDimensionsNumber();
@@ -34,11 +34,14 @@ public class PSO {
 		this.problem = problem;
 		this.C1 = C1;
 		this.C2 = C2;
-		this.inertiaWeight = INITIAL_WEIGHT;
+		this.inertialWeight = INITIAL_WEIGHT;
 		this.maxIterations = maxIterations;
 		this.standardDeviation = standardDeviation;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	public void run() {
 		init();
 		double standardDeviation;
@@ -47,7 +50,7 @@ public class PSO {
 			iterate();
 
 			standardDeviation = Statistics.getStandardDeviation(allFitness);
-			System.out.println("WEIGTH: " + inertiaWeight);
+			System.out.println("WEIGTH: " + inertialWeight);
 			if (standardDeviation < this.standardDeviation)
 				break;
 		}
@@ -85,18 +88,18 @@ public class PSO {
 	private void updateParticleVelocity(Particle currentParticle, int index) {
 		Particle bestParticleNeighborhood;
 
-		bestParticleNeighborhood = swarm[getBestParticleNeighborhood(index)];
-		currentParticle.updateVelocity(inertiaWeight,
+		bestParticleNeighborhood = getBestParticleNeighborhood(index);
+		currentParticle.updateVelocity(inertialWeight,
 				bestParticleNeighborhood.getPBest(), C1, C2);
 		
 		double percentcomplete = (iteration / maxIterations);
-		inertiaWeight -= inertiaWeight*percentcomplete;
+		inertialWeight -= inertialWeight*percentcomplete;
 		
-		if(inertiaWeight < FINAL_WEIGHT) 
-			inertiaWeight = FINAL_WEIGHT;
+		if(inertialWeight < FINAL_WEIGHT) 
+			inertialWeight = FINAL_WEIGHT;
 	}
 
-	private int getBestParticleNeighborhood(int index) {
+	private Particle getBestParticleNeighborhood(int index) {
 		int indexBestParticle = index;
 		int indexLeftNeighbor = (index > 0) ? index - 1
 				: swarmSize - 1;
@@ -124,7 +127,7 @@ public class PSO {
 			indexBestParticle = indexRightNeighbor;
 		}
 
-		return indexBestParticle;
+		return swarm[indexBestParticle];
 	}
 
 	private double calculatePBest(Particle particle) {
@@ -172,7 +175,20 @@ public class PSO {
 
 		return position;
 	}
-
+	
+	private Double[] getInitialVelocity() {
+		Double[] velocity = new Double[this.dimensions];
+		Random random = new Random(System.nanoTime());
+		
+		for (int i = 0; i < this.dimensions; i++) {
+			
+			// The initial velocity should be a value between zero and one
+			velocity[i] = 1 / random.nextDouble();
+		}
+		
+		return velocity;
+	}
+	
 	private Double[] getZero() {
 		Double[] posicao = new Double[this.dimensions];
 

@@ -2,7 +2,7 @@ package br.upe.dsc.pso;
 
 import java.util.Random;
 
-import br.upe.dsc.pso.problemas.IProblem;
+import br.upe.dsc.pso.problems.IProblem;
 
 public class Particle {
 	private int dimensions;
