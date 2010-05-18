@@ -17,14 +17,14 @@ public class Main {
 //		IProblem problem = new Problem3();
 //		IProblem problem = new Problem4();
 //		IProblem problem = new Problem5();
-//		IProblem problem = new Problem6();
-		IProblem problem = new BookProblem();
+		IProblem problem = new Problem6();
+//		IProblem problem = new BookProblem();
 
 		int swarmSize = 100;
 		
 		for (int i = 0; i < 30; i++) {
 //			GlobalBestPSO pso = new GlobalBestPSO(swarmSize,100,0.3, problem, 0.5, 0.8, new SwarmObserver(swarmSize, problem));
-			LocalBestPSO pso = new LocalBestPSO(swarmSize,100,0.3, problem, 0.5, 0.8, new SwarmObserver(swarmSize, problem));
+			LocalBestPSO pso = new LocalBestPSO(swarmSize, 100, 0.1, problem, 0.5, 0.8, new SwarmObserver(swarmSize, problem));
 			pso.run();
 		}
 	}
