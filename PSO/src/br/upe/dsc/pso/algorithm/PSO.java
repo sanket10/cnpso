@@ -56,8 +56,9 @@ public abstract class PSO {
 
 			standardDeviation = Statistics.getStandardDeviation(allFitness);
 //			System.out.println("WEIGTH: " + inertialWeight);
-//			if (standardDeviation < this.standardDeviation)
-//				break;
+			if (standardDeviation < this.standardDeviation) {
+				break;
+			}
 		}
 		
 		swarmObserver.end();
@@ -95,9 +96,9 @@ public abstract class PSO {
 		swarmObserver.update(swarm);
 		
 		// Controls the velocity which the particles moves on the screen
-		try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) { }
+//		try {
+//			Thread.sleep(100);
+//		} catch (InterruptedException e) { }
 	}
 	
 	protected void updateParticleVelocity(Particle currentParticle, int index) {
