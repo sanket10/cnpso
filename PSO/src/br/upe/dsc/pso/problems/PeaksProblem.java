@@ -1,6 +1,6 @@
 package br.upe.dsc.pso.problems;
 
-public class BookProblem implements IProblem {
+public class PeaksProblem implements IProblem {
 	
 	public int getDimensionsNumber() {
         return 2;
@@ -14,11 +14,11 @@ public class BookProblem implements IProblem {
 	        return 5;
 	}
 	
-	public boolean compareFitness(Double pBestFitness, Double currentPositionFitness) {
+	public boolean compareFitness(double pBestFitness, double currentPositionFitness) {
 	        return currentPositionFitness > pBestFitness;
 	}
 	
-	public double getFitness(Double... dimension) {
+	public double getFitness(double... dimension) {
 		Double x = dimension[0];
 		Double y = dimension[1];
 		

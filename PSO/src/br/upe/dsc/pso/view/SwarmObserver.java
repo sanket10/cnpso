@@ -29,7 +29,7 @@ public class SwarmObserver {
 	}
 
 	public void update(Particle[] swarm) {
-		Double[] particleCurrentPosition;
+		double[] particleCurrentPosition;
 		
 		for (int i = 0; i < swarmSize; i++) {
 			particleCurrentPosition = swarm[i].getCurrentPosition();
