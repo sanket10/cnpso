@@ -11,12 +11,12 @@ public abstract class PSO {
 	private final double FINAL_WEIGHT = 0.4;
 	
 	private int dimensions;
-	private Double C1;
-	private Double C2;
+	private double C1;
+	private double C2;
 	private SwarmObserver swarmObserver;
 	protected int swarmSize;
 	protected Particle swarm[];
-	protected Double[] gBest;
+	protected double[] gBest;
 	protected IProblem problem;
 	
 	// Current inertia factor
@@ -27,7 +27,7 @@ public abstract class PSO {
 	protected double[] allFitness;
 
 	public PSO(int swarmSize, int maxIterations, double standardDeviation,
-			IProblem problem, Double C1, Double C2, SwarmObserver swarmObserver) {
+			IProblem problem, double C1, double C2, SwarmObserver swarmObserver) {
 
 		this.dimensions = problem.getDimensionsNumber();
 		this.swarmSize = swarmSize;
@@ -64,7 +64,7 @@ public abstract class PSO {
 		swarmObserver.end();
 		System.out.println("Best position: " + problem.getFitness(gBest));
 	}
-	
+
 	private void init() {
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = new Particle(dimensions);
@@ -96,9 +96,9 @@ public abstract class PSO {
 		swarmObserver.update(swarm);
 		
 		// Controls the velocity which the particles moves on the screen
-//		try {
-//			Thread.sleep(100);
-//		} catch (InterruptedException e) { }
+		try {
+			Thread.sleep(500);
+		} catch (InterruptedException e) { }
 	}
 	
 	protected void updateParticleVelocity(Particle currentParticle, int index) {
@@ -111,23 +111,24 @@ public abstract class PSO {
 		double percentComplete = (iteration / maxIterations);
 		inertialWeight -= inertialWeight*percentComplete;
 		
-		if(inertialWeight < FINAL_WEIGHT) 
+		if (inertialWeight < FINAL_WEIGHT) {
 			inertialWeight = FINAL_WEIGHT;
+		}
 	}
 	
 	protected void calculateGBest(Particle particle) {
-		Double[] pBest = particle.getPBest();
+		double[] pBest = particle.getPBest();
 
-		Double pBestFitness = this.problem.getFitness(pBest);
-		Double gBestFitness = this.problem.getFitness(this.gBest);
+		double pBestFitness = this.problem.getFitness(pBest);
+		double gBestFitness = this.problem.getFitness(this.gBest);
 
 		if (this.problem.compareFitness(gBestFitness, pBestFitness)) {
 			this.gBest = pBest;
 		}
 	}
 	
-	private Double[] getInitialPosition() {
-		Double[] position = new Double[this.dimensions];
+	private double[] getInitialPosition() {
+		double[] position = new double[this.dimensions];
 		Random random = new Random(System.nanoTime());
 
 		for (int i = 0; i < this.dimensions; i++) {
@@ -146,8 +147,8 @@ public abstract class PSO {
 		return position;
 	}
 	
-	private Double[] getInitialVelocity() {
-		Double[] velocity = new Double[this.dimensions];
+	private double[] getInitialVelocity() {
+		double[] velocity = new double[this.dimensions];
 		Random random = new Random(System.nanoTime());
 		
 		for (int i = 0; i < this.dimensions; i++) {
@@ -159,14 +160,19 @@ public abstract class PSO {
 		return velocity;
 	}
 	
-	private Double[] getZero() {
-		Double[] posicao = new Double[this.dimensions];
+	private double[] getZero() {
+		double[] posicao = new double[this.dimensions];
 
 		for (int i = 0; i < this.dimensions; i++) {
 			posicao[i] = 0D;
 		}
 
 		return posicao;
+	}
+	
+	
+	public SwarmObserver getSwarmObserver() {
+		return swarmObserver;
 	}
 	
 	protected abstract Particle getBestParticleNeighborhood(int index);

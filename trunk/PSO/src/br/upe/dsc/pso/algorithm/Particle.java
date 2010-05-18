@@ -6,9 +6,10 @@ import br.upe.dsc.pso.problems.IProblem;
 
 public class Particle {
 	private int dimensions;
-	private Double[] currentPosition;
-	private Double[] pBest;
-	private Double[] velocity;
+	private double[] currentPosition;
+	private double[] pBest;
+	private double[] velocity;
+	private double currentFitness;
 
 	/**
 	 * Creates a new particle.
@@ -17,9 +18,9 @@ public class Particle {
 	 */
 	public Particle(int dimensions) {
 		this.dimensions = dimensions;
-		currentPosition = new Double[dimensions];
-		pBest = new Double[dimensions];
-		velocity = new Double[dimensions];
+		currentPosition = new double[dimensions];
+		pBest = new double[dimensions];
+		velocity = new double[dimensions];
 	}
 
 	/**
@@ -27,7 +28,7 @@ public class Particle {
 	 * 
 	 * @return The current position of the particle.
 	 */
-	public Double[] getCurrentPosition() {
+	public double[] getCurrentPosition() {
 		return currentPosition;
 	}
 
@@ -36,7 +37,7 @@ public class Particle {
 	 * 
 	 * @param currentPosition The current positions of the particle.
 	 */
-	public void setCurrentPosition(Double[] currentPosition) {
+	public void setCurrentPosition(double[] currentPosition) {
 		this.currentPosition = currentPosition;
 	}
 
@@ -45,7 +46,7 @@ public class Particle {
 	 * 
 	 * @return The best position found by the particle.
 	 */
-	public Double[] getPBest() {
+	public double[] getPBest() {
 		return pBest;
 	}
 
@@ -54,7 +55,7 @@ public class Particle {
 	 * 
 	 * @param bestPosition The best position found by the particle.
 	 */
-	public void setPBest(Double[] bestPosition) {
+	public void setPBest(double[] bestPosition) {
 		this.pBest = bestPosition;
 	}
 
@@ -63,7 +64,7 @@ public class Particle {
 	 * 
 	 * @return The current velocity of the particle.
 	 */
-	public Double[] getVelocity() {
+	public double[] getVelocity() {
 		return velocity;
 	}
 
@@ -72,15 +73,15 @@ public class Particle {
 	 * 
 	 * @param velocity The current velocity of the particle.
 	 */
-	public void setVelocity(Double[] velocity) {
+	public void setVelocity(double[] velocity) {
 		this.velocity = velocity;
 	}
 
 	public void updatePBest(IProblem problem) {
-		Double currentPositionFitness = problem.getFitness(currentPosition);
-		Double pBestFitness = problem.getFitness(pBest);
+		double currentParticleFitness = problem.getFitness(currentPosition);
+		double pBestFitness = problem.getFitness(pBest);
 
-		if (problem.compareFitness(pBestFitness, currentPositionFitness)) {
+		if (problem.compareFitness(pBestFitness, currentParticleFitness)) {
 			pBest = currentPosition;
 		}
 	}
@@ -94,10 +95,10 @@ public class Particle {
 	 * @param C2 The social component
 	 */
 	public void updateVelocity(double inertialWeight,
-			Double[] bestParticleNeighborhood, Double C1, Double C2) {
+			double[] bestParticleNeighborhood, double C1, double C2) {
 		Random random = new Random();
-		Double R1 = random.nextDouble();
-		Double R2 = random.nextDouble();
+		double R1 = random.nextDouble();
+		double R2 = random.nextDouble();
 
 		for (int i = 0; i < dimensions; i++) {
 			velocity[i] = inertialWeight * velocity[i] + C1 * R1
@@ -118,5 +119,11 @@ public class Particle {
 			currentPosition[i] = (currentPosition[i] >= problem.getLowerLimit(i)) ? currentPosition[i]
 					: problem.getLowerLimit(i);
 		}
+		
+		currentFitness = problem.getFitness(currentPosition);
+	}
+
+	public double getCurrentfitness() {
+		return currentFitness;
 	}
 }

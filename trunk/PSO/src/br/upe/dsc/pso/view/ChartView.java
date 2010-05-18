@@ -12,7 +12,7 @@ import ChartDirector.ColorAxis;
 import ChartDirector.ContourLayer;
 import ChartDirector.XYChart;
 import br.upe.dsc.pso.algorithm.LocalBestPSO;
-import br.upe.dsc.pso.problems.BookProblem;
+import br.upe.dsc.pso.problems.PeaksProblem;
 import br.upe.dsc.pso.problems.IProblem;
 
 public class ChartView implements Runnable {
@@ -35,11 +35,17 @@ public class ChartView implements Runnable {
 	// Main code for creating charts
 	public void createChart(ChartViewer viewer, int index, SwarmObserver swarmObserver) {
 	
+		double[] dataX = new double[31];
+		double[] dataY = new double[31];
+		
+		for (int i = 0; i < 31; i++) {
+			dataX[i] = i;
+			dataY[i] = i;
+		}
 		// The x and y coordinates of the grid
-		double[] dataX = { -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3,
-				4, 5, 6, 7, 8, 9, 10 };
-		double[] dataY = { -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3,
-				4, 5, 6, 7, 8, 9, 10 };
+//		double[] dataX = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+//		double[] dataY = { -10, -9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3,
+//				4, 5, 6, 7, 8, 9, 10 };
 
 		// The values at the grid points. In this example, we will compute the
 		// values using the formula z = Sin(x / 2) * Sin(y / 2).
@@ -48,7 +54,19 @@ public class ChartView implements Runnable {
 			double y = dataY[yIndex];
 			for (int xIndex = 0; xIndex < dataX.length; ++xIndex) {
 				double x = dataX[xIndex];
-				dataZ[yIndex * (dataX.length) + xIndex] = 418.9829 * 2 + (-x * Math.sin(Math.sqrt(Math.abs(x))) -y * Math.sin(Math.abs(y)));
+//				dataZ[yIndex * (dataX.length) + xIndex] = 418.9829 * 2 + (-x * Math.sin(Math.sqrt(Math.abs(x))) -y * Math.sin(Math.abs(y)));
+//				dataZ[yIndex * (dataX.length) + xIndex] = (3*(Math.pow(1-x,2))*Math.exp(-(Math.pow(x,2))-(Math.pow(y+1,2)))-10*((x/5)-(Math.pow(x,3))-Math.pow(y,5))*Math.exp(-Math.pow(x,2)-Math.pow(y,2))-(1/3)*Math.exp(-(Math.pow(x+1, 2))-Math.pow(y,2)));
+				
+				dataZ[yIndex * (dataX.length) + xIndex] = +5*Math.exp(-0.1*((x-15)*(x-15)+(y-20)*(y-20)))
+		        -2*Math.exp(-0.08*((x-20)*(x-20)+(y-15)*(y-15)))
+		        +3*Math.exp(-0.08*((x-25)*(x-25) +(y-10)*(y-10)))
+		        +2*Math.exp(-0.1*((x-10)*(x-10)+(y-10)*(y-10)))
+		        -2*Math.exp(-0.5*((x-5)*(x-5)+(y-10)*(y-10)))
+		        -4*Math.exp(-0.1*((x-15)*(x-15)+(y-5)*(y-5)))
+		        -2*Math.exp(-0.5*((x-8)*(x-8)+(y-25)*(y-25)))
+		        -2*Math.exp(-0.5*((x-21)*(x-21)+(y-25)*(y-25)))
+		        +2*Math.exp(-0.5*((x-25)*(x-25)+(y-16)*(y-16)))
+		        +2*Math.exp(-0.5*((x-5)*(x-5)+(y-14)*(y-14)));
 			}
 		}
 
@@ -63,7 +81,7 @@ public class ChartView implements Runnable {
 		// Set the plot area at (75, 40) and of size 400 x 400 pixels. Use
 		// semi-transparent black (80000000) dotted lines for both horizontal
 		// and vertical grid lines
-		c.setPlotArea(75, 40, 400, 400, -1, -1, -1, c.dashLineColor(0x80000000,
+		c.setPlotArea(75, 30, 400, 400, -1, -1, -1, c.dashLineColor(0x80000000,
 				Chart.DotLine), -1);
 
 		// Set x-axis and y-axis title using 12 points Arial Bold Italic font
@@ -111,49 +129,13 @@ public class ChartView implements Runnable {
 		viewer.setImage(c.makeImage());
 	}
 
-	// Allow this module to run as standalone program for easy testing
-	public static void main(String[] args) {
-		int swarmSize = 100;
-		IProblem problem = new BookProblem();
-		
-		// Create and set up the main window		
-		JFrame frame = new JFrame("PSO");
-		frame.getContentPane().setBackground(Color.white);
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
-
-		// Instantiate an instance of this chart
-		ChartView chart = new ChartView();
-		chart.setSwarmObserver(new SwarmObserver(swarmSize, problem));
-		chart.setFrame(frame);
-
-		// Create the chart and put them in the content pane
-		chart.setViewer(new ChartViewer());
-		chart.createChart(chart.getViewer(), 0, chart.getSwarmObserver());
-		frame.getContentPane().add(chart.getViewer());
-		
-		// Display the window
-		frame.pack();
-		frame.setVisible(true);
-		
-		chart.setRunning(true);
-		new Thread(chart).start();
-		
-		LocalBestPSO pso = new LocalBestPSO(swarmSize, 100, 0.3, problem, 0.5, 0.8, chart.getSwarmObserver());
-		pso.run();
-		chart.setRunning(false);
-	}
-
 	@Override
 	public void run() {
 		while (running){
 			createChart(viewer, 0, swarmObserver);
 			frame.repaint();
 			try {
-				Thread.sleep(100);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {}
 		}
 	}

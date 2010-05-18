@@ -23,11 +23,11 @@ public class Problem5 implements IProblem {
             return 5.8;
     }
     
-    public boolean compareFitness(Double pBestFitness, Double currentPositionFitness) {
+    public boolean compareFitness(double pBestFitness, double currentPositionFitness) {
             return currentPositionFitness > pBestFitness;
     }
     
-    public double getFitness(Double... dimension) {
+    public double getFitness(double... dimension) {
             return 21.5 + dimension[0] * Math.sin(4 * Math.PI * dimension[0]) + dimension[1] * Math.sin(20 * Math.PI * dimension[1]);
     }
 }

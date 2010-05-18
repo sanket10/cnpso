@@ -17,11 +17,11 @@ public class Problem2 implements IProblem {
             return 2.048;
     }
 
-    public boolean compareFitness(Double pBestFitness, Double currentPositionFitness) {
+    public boolean compareFitness(double pBestFitness, double currentPositionFitness) {
             return currentPositionFitness > pBestFitness;
     }
     
-    public double getFitness(Double... dimension) {
+    public double getFitness(double... dimension) {
             double fator1 = (dimension[1] - dimension[0] * dimension[0]);
             return 100 * fator1 * fator1 + (1 - dimension[0]) * (1 - dimension[0]);
     }

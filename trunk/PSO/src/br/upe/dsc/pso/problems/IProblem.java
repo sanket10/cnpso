@@ -9,7 +9,7 @@ public interface IProblem {
 	
 	double getUpperLimit(int dimension);
 	
-	boolean compareFitness(Double pBestFitness, Double currentPositionFitness);
+	boolean compareFitness(double pBestFitness, double currentPositionFitness);
 	
-	double getFitness(Double... dimension);
+	double getFitness(double... dimension);
 }
