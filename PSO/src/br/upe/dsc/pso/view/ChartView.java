@@ -1,5 +1,7 @@
 package br.upe.dsc.pso.view;
 
+import java.awt.Image;
+
 import javax.swing.JFrame;
 
 import ChartDirector.Chart;
@@ -37,9 +39,7 @@ public class ChartView implements Runnable {
 		return 1;
 	}
 
-	// Main code for creating charts
-	public void createChart(ChartViewer viewer, int index, SwarmObserver swarmObserver) {
-	
+	public Image createChartImage(SwarmObserver swarmObserver) {
 		// The values at the grid points. In this example, we will compute the
 		// values using the formula z = Sin(x / 2) * Sin(y / 2).
 		double[] dataZ = new double[(dataX.length) * (dataY.length)];
@@ -105,15 +105,21 @@ public class ChartView implements Runnable {
 
 		// Use smooth gradient coloring
 		cAxis.setColorGradient(true);
+		return c.makeImage();
+	}
+	
+	// Main code for creating charts
+	public void createChart(ChartViewer viewer, SwarmObserver swarmObserver) {
 
 		// Output the chart
-		viewer.setImage(c.makeImage());
+		Image image = createChartImage(swarmObserver);
+		viewer.setImage(image);
 	}
 
 	@Override
 	public void run() {
 		while (running){
-			createChart(viewer, 0, swarmObserver);
+			createChart(viewer, swarmObserver);
 			frame.repaint();
 			
 			try {

@@ -13,6 +13,7 @@ import br.upe.dsc.pso.algorithm.LocalBestPSO;
 import br.upe.dsc.pso.algorithm.PSO;
 import br.upe.dsc.pso.problems.IProblem;
 import br.upe.dsc.pso.problems.RandomPeaksProblem;
+import br.upe.dsc.pso.util.ChartImage;
 import br.upe.dsc.pso.util.FileUtil;
 import br.upe.dsc.pso.view.ChartView;
 import br.upe.dsc.pso.view.SwarmObserver;
@@ -33,15 +34,22 @@ public class Main {
 		// IProblem problem = new PeaksProblem();
 		
 		IProblem problem = new RandomPeaksProblem();
-		FileUtil fileUtil = new FileUtil(problem.getName());
-		int swarmSize = 30;
+
+		// Code to create the chart image
+		createChartImage(problem);
 		
-		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem, fileUtil);
+
+		// Code to open the frame and see the simulation
+		
+//		FileUtil fileUtil = new FileUtil(problem.getName());
+//		int swarmSize = 30;
+		
+//		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem, fileUtil);
 
 //		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
 		
-		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
-		runChart(pso);
+//		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
+//		runChart(pso);
 		
 //		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 1.0, swarmObserver);
 //		fileUtil.createFile();
@@ -78,10 +86,7 @@ public class Main {
 //		swarmObserver.reset();
 //		runChart(pso);
 		
-//		 runSimple(pso);
-//		runChart(pso);
-		
-		fileUtil.end();
+//		fileUtil.end();
 	}
 
 	private static void runSimple(PSO pso) {
@@ -123,7 +128,7 @@ public class Main {
 
 		// Create the chart and put them in the content pane
 		chart.setViewer(new ChartViewer());
-		chart.createChart(chart.getViewer(), 0, chart.getSwarmObserver());
+		chart.createChart(chart.getViewer(), chart.getSwarmObserver());
 		frame.getContentPane().add(chart.getViewer());
 
 		// Display the window
@@ -151,5 +156,14 @@ public class Main {
 		chart.setRunning(false);
 		
 		frame.dispose();
+	}
+	
+	public static void createChartImage(IProblem problem) {
+		String simulationFilePath = "Random_Peaks/19052010_090457";
+		String simulationFileName = "090457.txt";
+		int iteration = 10;
+		
+		ChartImage chartImage = new ChartImage(simulationFilePath, simulationFileName, "teste2", iteration, problem);
+		chartImage.createImage();
 	}
 }
