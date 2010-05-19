@@ -14,8 +14,8 @@ public class GlobalBestPSO extends PSO {
 	@Override
 	protected Particle getBestParticleNeighborhood(int index) {
 		int indexBestParticle = index;
-		Double bestParticleFitness = problem.getFitness(swarm[index].getPBest());
-		Double currentParticleFitness;
+		double bestParticleFitness = problem.getFitness(swarm[index].getPBest());
+		double currentParticleFitness;
 		
 		for (int i = 0; i < swarmSize; i++) {
 			currentParticleFitness = problem.getFitness(swarm[i].getPBest());

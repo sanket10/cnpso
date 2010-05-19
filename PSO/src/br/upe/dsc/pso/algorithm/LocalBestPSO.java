@@ -20,11 +20,11 @@ public class LocalBestPSO extends PSO {
 				: 0;
 		double best = 0.0;
 
-		Double currentParticlePBestFitness = this.problem
+		double currentParticlePBestFitness = this.problem
 				.getFitness(this.swarm[index].getPBest());
-		Double leftNeighborParticlePBestFitness = this.problem
+		double leftNeighborParticlePBestFitness = this.problem
 				.getFitness(this.swarm[indexLeftNeighbor].getPBest());
-		Double rightNeighborParticlePBestFitness = this.problem
+		double rightNeighborParticlePBestFitness = this.problem
 				.getFitness(this.swarm[indexRightNeighbor].getPBest());
 
 		best = currentParticlePBestFitness;
