@@ -39,6 +39,10 @@ public class SwarmObserver {
 		}
 	}
 	
+	public void reset() {
+		iteration = 1;
+	}
+	
 	public double[] getXAxis() {
 		return xAxis;
 	}

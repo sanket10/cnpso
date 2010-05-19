@@ -8,7 +8,7 @@ public class GlobalBestPSO extends PSO {
 	public GlobalBestPSO(int swarmSize, int maxIterations, double standardDeviation,
 			IProblem problem, Double C1, Double C2, SwarmObserver swarmObserver) {
 
-		super(swarmSize, maxIterations, standardDeviation, problem, C1, C2, swarmObserver);
+		super("Global Best PSO", swarmSize, maxIterations, standardDeviation, problem, C1, C2, swarmObserver);
 	}
 	
 	@Override

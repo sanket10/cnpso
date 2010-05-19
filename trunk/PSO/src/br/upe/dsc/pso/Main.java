@@ -3,14 +3,12 @@ package br.upe.dsc.pso;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import ChartDirector.ChartViewer;
+import br.upe.dsc.pso.algorithm.GlobalBestPSO;
 import br.upe.dsc.pso.algorithm.LocalBestPSO;
 import br.upe.dsc.pso.algorithm.PSO;
 import br.upe.dsc.pso.problems.IProblem;
@@ -41,10 +39,47 @@ public class Main {
 		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem, fileUtil);
 
 //		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
-		LocalBestPSO pso = new LocalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
-
-//		 runSimple(pso);
+		
+		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
 		runChart(pso);
+		
+//		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 1.0, swarmObserver);
+//		fileUtil.createFile();
+//		swarmObserver.reset();
+//		runChart(pso);
+//		
+//		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 0.0, swarmObserver);
+//		fileUtil.createFile();
+//		swarmObserver.reset();
+//		runChart(pso);
+//		
+//		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 1.0, 2.0, swarmObserver);
+//		fileUtil.createFile();
+//		swarmObserver.reset();
+//		runChart(pso);
+//		
+//		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 1.0, 1.0, swarmObserver);
+//		fileUtil.createFile();
+//		swarmObserver.reset();
+//		runChart(pso);
+//
+//		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 1.0, 0.0, swarmObserver);
+//		fileUtil.createFile();
+//		swarmObserver.reset();
+//		runChart(pso);
+//		
+//		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 0.0, 2.0, swarmObserver);
+//		fileUtil.createFile();
+//		swarmObserver.reset();
+//		runChart(pso);
+//		
+//		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 0.0, 1.0, swarmObserver);
+//		fileUtil.createFile();
+//		swarmObserver.reset();
+//		runChart(pso);
+		
+//		 runSimple(pso);
+//		runChart(pso);
 		
 		fileUtil.end();
 	}
@@ -68,11 +103,11 @@ public class Main {
 		// Create and set up the main window
 		JFrame frame = new JFrame("PSO");
 		frame.getContentPane().setBackground(Color.white);
-		frame.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent e) {
-				System.exit(0);
-			}
-		});
+//		frame.addWindowListener(new WindowAdapter() {
+//			public void windowClosing(WindowEvent e) {
+//				System.exit(0);
+//			}
+//		});
 		
 		// The x and y coordinates of the chart grid
 		double[] dataX = new double[31];
@@ -114,5 +149,7 @@ public class Main {
 		pso.getSwarmObserver().getFileUtil().printImage(bufferedImage);
 		
 		chart.setRunning(false);
+		
+		frame.dispose();
 	}
 }

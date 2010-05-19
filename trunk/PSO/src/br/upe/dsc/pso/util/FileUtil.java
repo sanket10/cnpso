@@ -16,13 +16,31 @@ public class FileUtil {
 	private String executionDirectoryName;
 	private String fileName;
 	private String filePath;
+	private String problemName;
 	
 	public FileUtil(String problemName) {
-		createProblemDirectory(problemName);
+		this.problemName = problemName;
+		createProblemDirectory();
 		createExecutionDirectory();
 		
 		filePath = problemDirectoryName + File.separatorChar + executionDirectoryName + File.separatorChar;
 		createFile();
+	}
+	
+	public void printFileHeader(String psoType, int swarmSize, int maxIterations, double standardDeviation,
+			double C1, double C2) {
+		
+		try {
+			file.write("Problem: " + problemName + "\n");
+			file.write("PSO type: " + psoType + "\n");
+			file.write("Swarm size: " + swarmSize + "\n");
+			file.write("Maximum iterations: " + maxIterations + "\n");
+			file.write("Standard deviation: " + standardDeviation + "\n");
+			file.write("C1: " + C1 + "\n");
+			file.write("C2: " + C2 + "\n");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void printIterationHeader(int iteration) {
@@ -49,7 +67,7 @@ public class FileUtil {
 		}
 	}
 	
-	private void createProblemDirectory(String problemName) {
+	private void createProblemDirectory() {
 		problemDirectoryName = problemName.replace(" ", "_");
 		
 		File directory = new File(problemDirectoryName);
