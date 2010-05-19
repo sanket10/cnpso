@@ -21,8 +21,8 @@ public abstract class PSO {
 	
 	// Current inertia factor
 	protected double inertialWeight;
-	protected double iteration;
-	protected double maxIterations;
+	protected int iteration;
+	protected int maxIterations;
 	protected double standardDeviation;
 	protected double[] allFitness;
 
@@ -33,7 +33,7 @@ public abstract class PSO {
 		this.swarmSize = swarmSize;
 		this.swarm = new Particle[swarmSize];
 		this.allFitness = new double[swarmSize];
-		this.gBest = getZero();
+		this.gBest = null;
 		this.problem = problem;
 		this.C1 = C1;
 		this.C2 = C2;
@@ -69,7 +69,7 @@ public abstract class PSO {
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = new Particle(dimensions);
 			particle.setCurrentPosition(getInitialPosition());
-			particle.setPBest(particle.getCurrentPosition());
+			particle.setPBest(particle.getCurrentPosition().clone());
 			particle.setVelocity(getInitialVelocity());
 			swarm[i] = particle;
 		}
@@ -103,15 +103,15 @@ public abstract class PSO {
 		}
 		
 		// Updating the inertial weight with linear decaiment
-		inertialWeight = (inertialWeight - FINAL_WEIGHT) * ((maxIterations - iteration) / maxIterations) + FINAL_WEIGHT;
+		inertialWeight = (inertialWeight - FINAL_WEIGHT) * ((maxIterations - iteration) / (double) maxIterations) + FINAL_WEIGHT;
 		
 		swarmObserver.update(swarm);
 		
-		System.out.println("Current best position: " + problem.getFitness(this.gBest));
+		System.out.println("Current best position ["+ iteration +"/"+ maxIterations +"]: " + problem.getFitness(this.gBest));
 		
 		// Controls the velocity which the particles moves on the screen
 		try {
-			Thread.sleep(500);
+			Thread.sleep(250);
 		} catch (InterruptedException e) { }
 	}
 	
@@ -167,6 +167,7 @@ public abstract class PSO {
 		return velocity;
 	}
 	
+	/*
 	private double[] getZero() {
 		double[] posicao = new double[this.dimensions];
 
@@ -176,7 +177,7 @@ public abstract class PSO {
 
 		return posicao;
 	}
-	
+	*/
 	
 	public SwarmObserver getSwarmObserver() {
 		return swarmObserver;

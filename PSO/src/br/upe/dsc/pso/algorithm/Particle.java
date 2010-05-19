@@ -82,7 +82,7 @@ public class Particle {
 		double pBestFitness = problem.getFitness(pBest);
 
 		if (problem.compareFitness(pBestFitness, currentParticleFitness)) {
-			pBest = currentPosition;
+			pBest = currentPosition.clone();
 		}
 	}
 	
@@ -113,7 +113,7 @@ public class Particle {
 	public void updateCurrentPosition(IProblem problem) {
 		for (int i = 0; i < dimensions; i++) {
 			currentPosition[i] = currentPosition[i] + velocity[i];
-
+			
 			currentPosition[i] = (currentPosition[i] <= problem.getUpperLimit(i)) ? currentPosition[i]
 					: problem.getUpperLimit(i);
 			currentPosition[i] = (currentPosition[i] >= problem.getLowerLimit(i)) ? currentPosition[i]
