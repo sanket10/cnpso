@@ -55,6 +55,14 @@ public class SwarmObserver {
 		return zAxis;
 	}
 
+	public void setXAxis(double[] xAxis) {
+		this.xAxis = xAxis;
+	}
+
+	public void setYAxis(double[] yAxis) {
+		this.yAxis = yAxis;
+	}
+
 	public IProblem getProblem() {
 		return problem;
 	}
