@@ -1,9 +1,5 @@
 package br.upe.dsc.pso.view;
 
-import java.awt.Color;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-
 import javax.swing.JFrame;
 
 import ChartDirector.Chart;
@@ -11,8 +7,6 @@ import ChartDirector.ChartViewer;
 import ChartDirector.ColorAxis;
 import ChartDirector.ContourLayer;
 import ChartDirector.XYChart;
-import br.upe.dsc.pso.algorithm.LocalBestPSO;
-import br.upe.dsc.pso.problems.PeaksProblem;
 import br.upe.dsc.pso.problems.IProblem;
 
 public class ChartView implements Runnable {

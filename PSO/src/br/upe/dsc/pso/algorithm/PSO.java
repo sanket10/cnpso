@@ -61,10 +61,9 @@ public abstract class PSO {
 			}
 		}
 		
-		swarmObserver.end();
-		System.out.println("Best position: " + problem.getFitness(this.gBest));
+		System.out.println("Best position: " + problem.getFitness(gBest));
 	}
-	
+
 	private void init() {
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = new Particle(dimensions);

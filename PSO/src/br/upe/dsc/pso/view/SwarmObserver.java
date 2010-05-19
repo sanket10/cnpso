@@ -1,12 +1,8 @@
 package br.upe.dsc.pso.view;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Date;
-
 import br.upe.dsc.pso.algorithm.Particle;
 import br.upe.dsc.pso.problems.IProblem;
+import br.upe.dsc.pso.util.FileUtil;
 
 public class SwarmObserver {
 	private double[] xAxis;
@@ -14,23 +10,24 @@ public class SwarmObserver {
 	private double[] zAxis;
 	private int swarmSize;
 	private IProblem problem;
-	private FileWriter writer;
+	private FileUtil fileUtil;
+	private int iteration;
 	
-	public SwarmObserver(int swarmSize, IProblem problem) {
+	public SwarmObserver(int swarmSize, IProblem problem, FileUtil fileUtil) {
 		this.problem = problem;
 		this.swarmSize = swarmSize;
 		xAxis = new double[swarmSize];
 		yAxis = new double[swarmSize];
 		zAxis = new double[swarmSize];
-		try {
-			writer = new FileWriter(new File("output.txt"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		iteration = 1;
+		
+		this.fileUtil = fileUtil;
 	}
 
 	public void update(Particle[] swarm) {
 		double[] particleCurrentPosition;
+		
+		fileUtil.printIterationHeader(iteration++);
 		
 		for (int i = 0; i < swarmSize; i++) {
 			particleCurrentPosition = swarm[i].getCurrentPosition();
@@ -38,19 +35,7 @@ public class SwarmObserver {
 			yAxis[i] = particleCurrentPosition[1];
 			zAxis[i] = problem.getFitness(particleCurrentPosition);
 			
-			try {
-				writer.write(xAxis[i] + " " + yAxis[i] + " " + zAxis[i] + "\n");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		}
-	}
-	
-	public void end() {
-		try {
-			writer.close();
-		} catch (IOException e) {
-			e.printStackTrace();
+			fileUtil.printPosition(xAxis[i], yAxis[i], zAxis[i]);
 		}
 	}
 	
@@ -68,5 +53,9 @@ public class SwarmObserver {
 
 	public IProblem getProblem() {
 		return problem;
+	}
+
+	public FileUtil getFileUtil() {
+		return fileUtil;
 	}
 }

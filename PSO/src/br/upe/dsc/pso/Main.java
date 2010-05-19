@@ -7,13 +7,11 @@ import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
 
 import ChartDirector.ChartViewer;
-import br.upe.dsc.pso.algorithm.GlobalBestPSO;
 import br.upe.dsc.pso.algorithm.LocalBestPSO;
 import br.upe.dsc.pso.algorithm.PSO;
-import br.upe.dsc.pso.problems.PeaksProblem;
 import br.upe.dsc.pso.problems.IProblem;
-import br.upe.dsc.pso.problems.Problem6;
 import br.upe.dsc.pso.problems.RandomPeaksProblem;
+import br.upe.dsc.pso.util.FileUtil;
 import br.upe.dsc.pso.view.ChartView;
 import br.upe.dsc.pso.view.SwarmObserver;
 
@@ -31,25 +29,32 @@ public class Main {
 		// IProblem problem = new Problem5();
 		// IProblem problem = new Problem6();
 		// IProblem problem = new PeaksProblem();
+		
 		IProblem problem = new RandomPeaksProblem();
+		FileUtil fileUtil = new FileUtil(problem.getName());
 		int swarmSize = 30;
-		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem);
+		
+		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem, fileUtil);
 
 //		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
 		LocalBestPSO pso = new LocalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
 
 //		 runSimple(pso);
 		runChart(pso);
+		
+		fileUtil.end();
 	}
 
 	private static void runSimple(PSO pso) {
-		IProblem problem = new RandomPeaksProblem();
-		int swarmSize = 100;
+		FileUtil fileUtil = pso.getSwarmObserver().getFileUtil();
+		int iterationsNumber = 30;
 		
-		for (int i = 0; i < 30; i++) {
+		for (int i = 0; i < iterationsNumber; i++) {
 			pso.run();
-			SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem);
-			pso = new LocalBestPSO(swarmSize, 100, 0.01, problem, 0.5, 0.8, swarmObserver);
+			
+			if (i < iterationsNumber - 1) {
+				fileUtil.createFile();
+			}
 		}
 	}
 
@@ -91,5 +96,4 @@ public class Main {
 		pso.run();
 		chart.setRunning(false);
 	}
-
 }
