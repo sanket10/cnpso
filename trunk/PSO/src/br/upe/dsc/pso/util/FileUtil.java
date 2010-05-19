@@ -1,5 +1,6 @@
 package br.upe.dsc.pso.util;
 
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -7,10 +8,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import javax.imageio.ImageIO;
+
 public class FileUtil {
 	private FileWriter file;
 	private String problemDirectoryName;
 	private String executionDirectoryName;
+	private String fileName;
 	private String filePath;
 	
 	public FileUtil(String problemName) {
@@ -34,7 +38,15 @@ public class FileUtil {
 			file.write(x + " " + y + " " + z + "\n");
 		} catch (IOException e) {
 			e.printStackTrace();
-		}		
+		}
+	}
+
+	public void printImage(RenderedImage image) {
+		try {
+			ImageIO.write(image, "PNG", new File(filePath, fileName + ".png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	private void createProblemDirectory(String problemName) {
@@ -66,7 +78,7 @@ public class FileUtil {
 	
 	public void createFile() {
 		SimpleDateFormat s = new SimpleDateFormat("hhmmss");
-		String name = s.format(new Date()) + ".txt";
+		fileName = s.format(new Date());
 		
 		try {
 			
@@ -76,7 +88,7 @@ public class FileUtil {
 				file.close();
 			}
 			
-			file = new FileWriter(new File(filePath, name));
+			file = new FileWriter(new File(filePath, fileName + ".txt"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
