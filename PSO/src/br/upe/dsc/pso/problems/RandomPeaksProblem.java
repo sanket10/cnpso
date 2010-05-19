@@ -2,6 +2,10 @@ package br.upe.dsc.pso.problems;
 
 public class RandomPeaksProblem implements IProblem {
 	
+	public String getName() {
+		return "Random Peaks";
+	}
+	
 	public int getDimensionsNumber() {
         return 2;
 	}
