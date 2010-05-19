@@ -35,8 +35,8 @@ public class Main {
 		int swarmSize = 10;
 		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem);
 
-//		 GlobalBestPSO pso = new GlobalBestPSO(swarmSize,100, 0.01, problem, 0.5, 0.8, swarmObserver);
-		LocalBestPSO pso = new LocalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
+		 GlobalBestPSO pso = new GlobalBestPSO(swarmSize,100, 0.01, problem, 0.5, 0.8, swarmObserver);
+	//	LocalBestPSO pso = new LocalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
 
 //		 runSimple(pso);
 		runChart(pso);
