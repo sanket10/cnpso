@@ -2,6 +2,10 @@ package br.upe.dsc.pso.problems;
 
 public class Problem6 implements IProblem {
     
+	public String getName() {
+		return "Problem 6";
+	}
+	
     public int getDimensionsNumber() {
             return 3;
     }

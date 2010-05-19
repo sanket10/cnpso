@@ -3,6 +3,7 @@ package br.upe.dsc.pso.view;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 
 import br.upe.dsc.pso.algorithm.Particle;
 import br.upe.dsc.pso.problems.IProblem;
@@ -63,5 +64,9 @@ public class SwarmObserver {
 
 	public double[] getZAxis() {
 		return zAxis;
+	}
+
+	public IProblem getProblem() {
+		return problem;
 	}
 }

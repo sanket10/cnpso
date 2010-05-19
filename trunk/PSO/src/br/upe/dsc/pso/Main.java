@@ -30,8 +30,8 @@ public class Main {
 		// IProblem problem = new Problem4();
 		// IProblem problem = new Problem5();
 		// IProblem problem = new Problem6();
-//		 IProblem problem = new PeaksProblem();
-		 IProblem problem = new RandomPeaksProblem();
+		// IProblem problem = new PeaksProblem();
+		IProblem problem = new RandomPeaksProblem();
 		int swarmSize = 30;
 		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem);
 
@@ -53,7 +53,6 @@ public class Main {
 		}
 	}
 
-	// Allow this module to run as standalone program for easy testing
 	public static void runChart(PSO pso) {
 
 		// Create and set up the main window
@@ -64,11 +63,18 @@ public class Main {
 				System.exit(0);
 			}
 		});
-
+		
+		// The x and y coordinates of the chart grid
+		double[] dataX = new double[31];
+		double[] dataY = new double[31];
+		
+		for (int i = 0; i < 31; i++) {
+			dataX[i] = i;
+			dataY[i] = i;
+		}
+		
 		// Instantiate an instance of this chart
-		ChartView chart = new ChartView();
-		chart.setSwarmObserver(pso.getSwarmObserver());
-		chart.setFrame(frame);
+		ChartView chart = new ChartView(frame, pso.getSwarmObserver(), dataX, dataY);
 
 		// Create the chart and put them in the content pane
 		chart.setViewer(new ChartViewer());
@@ -79,9 +85,9 @@ public class Main {
 		frame.pack();
 		frame.setVisible(true);
 
+		// Runs the algorithm
 		chart.setRunning(true);
 		new Thread(chart).start();
-
 		pso.run();
 		chart.setRunning(false);
 	}
