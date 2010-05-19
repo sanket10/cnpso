@@ -62,9 +62,9 @@ public abstract class PSO {
 		}
 		
 		swarmObserver.end();
-		System.out.println("Best position: " + problem.getFitness(gBest));
+		System.out.println("Best position: " + problem.getFitness(this.gBest));
 	}
-
+	
 	private void init() {
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = new Particle(dimensions);
@@ -73,9 +73,17 @@ public abstract class PSO {
 			particle.setVelocity(getInitialVelocity());
 			swarm[i] = particle;
 		}
+		
+		// Define the gBest particle of the first iteration
+		this.gBest = swarm[0].getCurrentPosition().clone();
+		for (Particle particle : swarm) {
+			calculateGBest(particle);
+		}
 	}
 	
 	private void iterate() {
+		
+		// Calculating the pbest and gbest positions
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = swarm[i];
 
@@ -85,7 +93,8 @@ public abstract class PSO {
 			this.allFitness[i] = problem.getFitness(particle.getPBest());
 			calculateGBest(particle);
 		}
-
+		
+		// Updating the velocity and position for all particles
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = swarm[i];
 
@@ -93,7 +102,12 @@ public abstract class PSO {
 			particle.updateCurrentPosition(problem);
 		}
 		
+		// Updating the inertial weight with linear decaiment
+		inertialWeight = (inertialWeight - FINAL_WEIGHT) * ((maxIterations - iteration) / maxIterations) + FINAL_WEIGHT;
+		
 		swarmObserver.update(swarm);
+		
+		System.out.println("Current best position: " + problem.getFitness(this.gBest));
 		
 		// Controls the velocity which the particles moves on the screen
 		try {
@@ -107,13 +121,6 @@ public abstract class PSO {
 		bestParticleNeighborhood = getBestParticleNeighborhood(index);
 		currentParticle.updateVelocity(inertialWeight,
 				bestParticleNeighborhood.getPBest(), C1, C2);
-		
-		double percentComplete = (iteration / maxIterations);
-		inertialWeight -= inertialWeight*percentComplete;
-		
-		if (inertialWeight < FINAL_WEIGHT) {
-			inertialWeight = FINAL_WEIGHT;
-		}
 	}
 	
 	protected void calculateGBest(Particle particle) {
@@ -123,7 +130,7 @@ public abstract class PSO {
 		double gBestFitness = this.problem.getFitness(this.gBest);
 
 		if (this.problem.compareFitness(gBestFitness, pBestFitness)) {
-			this.gBest = pBest;
+			this.gBest = pBest.clone();
 		}
 	}
 	

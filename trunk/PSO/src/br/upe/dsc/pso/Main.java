@@ -32,7 +32,7 @@ public class Main {
 		// IProblem problem = new Problem6();
 		// IProblem problem = new PeaksProblem();
 		IProblem problem = new RandomPeaksProblem();
-		int swarmSize = 30;
+		int swarmSize = 10;
 		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem);
 
 //		 GlobalBestPSO pso = new GlobalBestPSO(swarmSize,100, 0.01, problem, 0.5, 0.8, swarmObserver);
