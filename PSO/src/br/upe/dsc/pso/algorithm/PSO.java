@@ -14,6 +14,7 @@ public abstract class PSO {
 	private double C1;
 	private double C2;
 	private SwarmObserver swarmObserver;
+	private String psoType;
 	protected int swarmSize;
 	protected Particle swarm[];
 	protected double[] gBest;
@@ -26,9 +27,10 @@ public abstract class PSO {
 	protected double standardDeviation;
 	protected double[] allFitness;
 
-	public PSO(int swarmSize, int maxIterations, double standardDeviation,
+	public PSO(String psoType, int swarmSize, int maxIterations, double standardDeviation,
 			IProblem problem, double C1, double C2, SwarmObserver swarmObserver) {
 
+		this.psoType = psoType;
 		this.dimensions = problem.getDimensionsNumber();
 		this.swarmSize = swarmSize;
 		this.swarm = new Particle[swarmSize];
@@ -65,6 +67,8 @@ public abstract class PSO {
 	}
 
 	private void init() {
+		swarmObserver.getFileUtil().printFileHeader(psoType, swarmSize, maxIterations, standardDeviation, C1, C2);
+		
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = new Particle(dimensions);
 			particle.setCurrentPosition(getInitialPosition());

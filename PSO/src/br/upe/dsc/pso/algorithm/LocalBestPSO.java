@@ -8,7 +8,7 @@ public class LocalBestPSO extends PSO {
 	public LocalBestPSO(int swarmSize, int maxIterations, double standardDeviation,
 			IProblem problem, Double C1, Double C2, SwarmObserver swarmObserver) {
 		
-		super(swarmSize, maxIterations, standardDeviation, problem, C1, C2, swarmObserver);
+		super("Local Best PSO", swarmSize, maxIterations, standardDeviation, problem, C1, C2, swarmObserver);
 	}
 
 	@Override
