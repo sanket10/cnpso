@@ -106,7 +106,7 @@ public abstract class PSO {
 		
 		swarmObserver.update(swarm);
 		
-		System.out.println("Current best position ["+ iteration +"/"+ maxIterations +"]: " + problem.getFitness(this.gBest));
+//		System.out.println("Current best position ["+ iteration +"/"+ maxIterations +"]: " + problem.getFitness(this.gBest));
 		
 		// Controls the velocity which the particles moves on the screen
 		try {
@@ -165,18 +165,6 @@ public abstract class PSO {
 		
 		return velocity;
 	}
-	
-	/*
-	private double[] getZero() {
-		double[] posicao = new double[this.dimensions];
-
-		for (int i = 0; i < this.dimensions; i++) {
-			posicao[i] = 0D;
-		}
-
-		return posicao;
-	}
-	*/
 	
 	public SwarmObserver getSwarmObserver() {
 		return swarmObserver;

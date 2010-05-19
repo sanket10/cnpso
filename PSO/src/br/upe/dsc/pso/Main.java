@@ -1,9 +1,13 @@
 package br.upe.dsc.pso;
 
 import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 
 import ChartDirector.ChartViewer;
@@ -59,7 +63,8 @@ public class Main {
 	}
 
 	public static void runChart(PSO pso) {
-
+		ChartView chart;
+		
 		// Create and set up the main window
 		JFrame frame = new JFrame("PSO");
 		frame.getContentPane().setBackground(Color.white);
@@ -79,7 +84,7 @@ public class Main {
 		}
 		
 		// Instantiate an instance of this chart
-		ChartView chart = new ChartView(frame, pso.getSwarmObserver(), dataX, dataY);
+		chart = new ChartView(frame, pso.getSwarmObserver(), dataX, dataY);
 
 		// Create the chart and put them in the content pane
 		chart.setViewer(new ChartViewer());
@@ -94,6 +99,20 @@ public class Main {
 		chart.setRunning(true);
 		new Thread(chart).start();
 		pso.run();
+		
+		// Gets the last image of the chart
+		Image image = chart.getViewer().getImage();
+		
+		// Creates a BufferdImage from the Image
+		BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null),
+				BufferedImage.TYPE_INT_RGB);  
+		Graphics2D g2 = bufferedImage.createGraphics();
+		g2.drawImage(image, null, null);  
+		g2.dispose();
+		
+		// Prints the image to a file
+		pso.getSwarmObserver().getFileUtil().printImage(bufferedImage);
+		
 		chart.setRunning(false);
 	}
 }

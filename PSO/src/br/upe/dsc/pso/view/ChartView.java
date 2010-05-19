@@ -115,6 +115,7 @@ public class ChartView implements Runnable {
 		while (running){
 			createChart(viewer, 0, swarmObserver);
 			frame.repaint();
+			
 			try {
 				Thread.sleep(250);
 			} catch (InterruptedException e) {}
