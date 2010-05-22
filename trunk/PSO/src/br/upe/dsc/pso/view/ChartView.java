@@ -77,6 +77,8 @@ public class ChartView implements Runnable {
 		c.yAxis().setTickDensity(40);
 		c.xAxis().setTickDensity(40);
 		
+		c.addScatterLayer(swarmObserver.getXAxis(), swarmObserver.getYAxis(), "", Chart.Cross2Shape(0.2), 7, 0x000000);
+		
 		// Add a contour layer using the given data
 		ContourLayer layer = c.addContourLayer(dataX, dataY, dataZ);
 
@@ -85,8 +87,6 @@ public class ChartView implements Runnable {
 
 		// Move the grid lines in front of the contour layer
 		c.getPlotArea().moveGridBefore(layer);
-		
-		c.addScatterLayer(swarmObserver.getXAxis(), swarmObserver.getYAxis(), "", Chart.Cross2Shape(0.2), 7, 0x000000);
 		
 		// Add a color axis (the legend) in which the left center point is anchored
 		// at (495, 240). Set the length to 370 pixels and the labels on the right side.
