@@ -53,7 +53,7 @@ public class ChartView implements Runnable {
 		}
 
 		// Create a XYChart object of size 600 x 500 pixels
-		XYChart c = new XYChart(600, 500);
+		XYChart c = new XYChart(510, 500);
 
 		// Add a title to the chart using 18 points Times New Roman Bold Italic
 		// font
@@ -62,7 +62,7 @@ public class ChartView implements Runnable {
 		// Set the plot area at (75, 40) and of size 400 x 400 pixels. Use
 		// semi-transparent black (80000000) dotted lines for both horizontal
 		// and vertical grid lines
-		c.setPlotArea(75, 40, 400, 400, -1, -1, -1, c.dashLineColor(0x80000000,
+		c.setPlotArea(50, 40, 350, 350, -1, -1, -1, c.dashLineColor(0x80000000,
 				Chart.DotLine), -1);
 
 		// Set x-axis and y-axis title using 12 points Arial Bold Italic font
@@ -90,7 +90,7 @@ public class ChartView implements Runnable {
 		
 		// Add a color axis (the legend) in which the left center point is anchored
 		// at (495, 240). Set the length to 370 pixels and the labels on the right side.
-		ColorAxis cAxis = layer.setColorAxis(495, 240, Chart.Left, 370,
+		ColorAxis cAxis = layer.setColorAxis(420, 215, Chart.Left, 320,
 				Chart.Right);
 
 		// Add a bounding box to the color axis using light grey (eeeeee) as the
@@ -98,7 +98,7 @@ public class ChartView implements Runnable {
 		cAxis.setBoundingBox(0xeeeeee, 0x444444);
 
 		// Add a title to the color axis using 12 points Arial Bold Italic font
-		cAxis.setTitle("Height", "Arial Bold Italic", 12);
+		cAxis.setTitle("Altura", "Arial Bold Italic", 12);
 
 		// Set color axis labels to use Arial Bold font
 		cAxis.setLabelStyle("Arial Bold");

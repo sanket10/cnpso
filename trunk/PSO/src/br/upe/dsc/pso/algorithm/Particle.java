@@ -99,12 +99,30 @@ public class Particle {
 		Random random = new Random();
 		double R1 = random.nextDouble();
 		double R2 = random.nextDouble();
-
+		
 		for (int i = 0; i < dimensions; i++) {
 			velocity[i] = inertialWeight * velocity[i] + C1 * R1
 					* (pBest[i] - currentPosition[i]) + C2 * R2
 					* (bestParticleNeighborhood[i] - currentPosition[i]);
 		}
+		
+		/*
+		// Constriction Coefficient
+		double alpha, alpha1, alpha2, k, X;
+		alpha1 = C1 * R1;
+		alpha2 = C2 * R2;
+		alpha = alpha1 + alpha2;		
+		if (alpha < 4) alpha = 4;
+		else System.out.println("Menor 4");
+		k = 0.75;
+		X = 2.0 * k / Math.abs(2.0 - alpha - Math.sqrt(alpha * (alpha - 4.0)));
+		
+		for (int i = 0; i < dimensions; i++) {
+			velocity[i] = X * (velocity[i] + alpha1
+					* (pBest[i] - currentPosition[i]) + alpha2
+					* (bestParticleNeighborhood[i] - currentPosition[i]));
+		}
+		*/
 	}
 
 	/**

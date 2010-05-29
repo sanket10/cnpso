@@ -41,15 +41,28 @@ public class Main {
 
 		// Code to open the frame and see the simulation
 		
-//		FileUtil fileUtil = new FileUtil(problem.getName());
-//		int swarmSize = 30;
+		FileUtil fileUtil = new FileUtil(problem.getName());
+		int swarmSize = 30;
 		
-//		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem, fileUtil);
+		SwarmObserver swarmObserver = new SwarmObserver(swarmSize, problem, fileUtil);
 
 //		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
 		
-//		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
-//		runChart(pso);
+		//GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 0.2, swarmObserver);
+		
+		// GBest
+		//GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
+		
+		// LBest
+		//LocalBestPSO pso = new LocalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
+		
+		// GBest Social
+		LocalBestPSO pso = new LocalBestPSO(swarmSize, 500, 0.01, problem, 5.0, 5.0, swarmObserver);
+		
+		// LBest Cognitivo
+		//LocalBestPSO pso = new LocalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 0.1, swarmObserver);
+		
+		runChart(pso);
 		
 //		pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 1.0, swarmObserver);
 //		fileUtil.createFile();
@@ -86,7 +99,7 @@ public class Main {
 //		swarmObserver.reset();
 //		runChart(pso);
 		
-//		fileUtil.end();
+		fileUtil.end();
 	}
 
 	private static void runSimple(PSO pso) {
