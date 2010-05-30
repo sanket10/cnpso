@@ -8,12 +8,10 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 import ChartDirector.ChartViewer;
-import br.upe.poli.pso.algorithm.GlobalBestPSO;
 import br.upe.poli.pso.algorithm.LocalBestPSO;
 import br.upe.poli.pso.algorithm.PSO;
 import br.upe.poli.base.Problem;
 import br.upe.poli.pso.problems.ProblemFactory;
-import br.upe.poli.pso.problems.RandomPeaks;
 import br.upe.poli.pso.util.ChartImage;
 import br.upe.poli.pso.util.FileUtil;
 import br.upe.poli.pso.view.ChartView;
