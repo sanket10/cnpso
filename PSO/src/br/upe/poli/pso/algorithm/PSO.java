@@ -33,12 +33,9 @@ public abstract class PSO extends Algorithm {
 			Problem problem, double C1, double C2, SwarmObserver swarmObserver) {
 		this.psoType = psoType;
 		this.swarmSize = swarmSize;
-		this.swarm = new Particle[swarmSize];
-		this.allFitness = new double[swarmSize];
 		this.problem = problem;
 		this.C1 = C1;
 		this.C2 = C2;
-		this.inertialWeight = INITIAL_WEIGHT;
 		this.maxIterations = maxIterations;
 		this.standardDeviation = standardDeviation;
 		this.swarmObserver = swarmObserver;
@@ -59,11 +56,24 @@ public abstract class PSO extends Algorithm {
 			if (standardDeviation < this.standardDeviation) {
 				break;
 			}
+			//if (iteration == 30) break;
+		}
+		// Calculating the gbest particle
+		for (int i = 0; i < swarmSize; i++) {
+			Particle particle = swarm[i];
+			
+			particle.updatePBest();
+			calculateGBest(particle);
 		}
 		return gBestParticle;
 	}
 	
 	private void init() {
+		// Init basic parameters
+		this.inertialWeight = INITIAL_WEIGHT;
+		this.swarm = new Particle[swarmSize];
+		this.allFitness = new double[swarmSize];
+		
 		for (int i = 0; i < swarmSize; i++) {
 			Particle particle = new Particle(problem);
 			swarm[i] = particle;
@@ -72,6 +82,7 @@ public abstract class PSO extends Algorithm {
 		// Define the gBest particle of the first iteration
 		gBestParticle = swarm[0];
 		gBest = gBestParticle.getPBest().clone();
+		gBestFitness = gBestParticle.getFitness();
 		for (Particle particle : swarm) {
 			calculateGBest(particle);
 		}
@@ -102,7 +113,7 @@ public abstract class PSO extends Algorithm {
 		((SwarmObserverPSO) swarmObserver).update(swarm);
 		
 		try {
-			Thread.sleep(250);
+			Thread.sleep(100);
 		} catch (InterruptedException e) {}
 	}
 	

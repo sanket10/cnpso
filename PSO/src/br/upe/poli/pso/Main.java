@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JFrame;
 
 import ChartDirector.ChartViewer;
+import br.upe.poli.pso.algorithm.GlobalBestPSO;
 import br.upe.poli.pso.algorithm.LocalBestPSO;
 import br.upe.poli.pso.algorithm.PSO;
 import br.upe.poli.base.Problem;
@@ -48,10 +49,8 @@ public class Main {
 		int swarmSize = 30;
 		
 		SwarmObserverPSO swarmObserver = new SwarmObserverPSO(swarmSize, problem, fileUtil);
-
-//		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 2.0, swarmObserver);
 		
-		//GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 100, 0.01, problem, 2.0, 0.2, swarmObserver);
+		GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 5000, 0.1, problem, 1.8, 1.8, swarmObserver);
 		
 		// GBest
 		//GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
@@ -60,7 +59,7 @@ public class Main {
 		//LocalBestPSO pso = new LocalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
 		
 		// GBest Social
-		LocalBestPSO pso = new LocalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 2.0, swarmObserver);
+		//GlobalBestPSO pso = new GlobalBestPSO(swarmSize, 500, 0.01, problem, 0.1, 2.0, swarmObserver);
 		
 		// LBest Cognitivo
 		//LocalBestPSO pso = new LocalBestPSO(swarmSize, 500, 0.01, problem, 2.0, 0.1, swarmObserver);
@@ -160,10 +159,10 @@ public class Main {
 		Image image = chart.getViewer().getImage();
 		
 		// Creates a BufferdImage from the Image
-		BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null),
+		BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), (image.getHeight(null) - 10),
 				BufferedImage.TYPE_INT_RGB);  
 		Graphics2D g2 = bufferedImage.createGraphics();
-		g2.drawImage(image, null, null);  
+		g2.drawImage(image, null, null);
 		g2.dispose();
 		
 		// Prints the image to a file

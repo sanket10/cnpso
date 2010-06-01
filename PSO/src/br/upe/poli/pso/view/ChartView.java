@@ -1,6 +1,8 @@
 package br.upe.poli.pso.view;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
 
@@ -54,9 +56,9 @@ public class ChartView implements Runnable {
 
 	public Image createChartImage(SwarmObserverPSO swarmObserver) {
 		// Create a XYChart object of size 600 x 500 pixels
-		int h, w = 510;
+		int h, w = 512;
 		h = 500;
-		double fontSize = Math.round(w * 0.015);
+		double fontSize = Math.round(w * 0.025);
 		XYChart c = new XYChart(w, h);
 
 		// Definindo a fonte padrão
@@ -69,16 +71,17 @@ public class ChartView implements Runnable {
 		// Set the plot area at (75, 40) and of size 400 x 400 pixels. Use
 		// semi-transparent black (80000000) dotted lines for both horizontal
 		// and vertical grid lines
-		c.setPlotArea(50, 40, 350, 350, -1, -1, -1, c.dashLineColor(0x80000000, Chart.DotLine), -1);
+		c.setPlotArea(55, 20, 400, 400, -1, -1, -1, c.dashLineColor(0x80000000, Chart.DotLine), -1);
 		//c.setPlotArea((int) (w/2.0 - 20.0), (int) Math.round((h/2.0) - (h*0.04)) - 9, -1, -1, -1, c.dashLineColor(0x80000000, Chart.DotLine), -1);
 		
 		// Set x-axis and y-axis title using 12 points Arial Bold Italic font
-		c.xAxis().setTitle("x", "Arial Bold Italic", 12);
-		c.yAxis().setTitle("y", "Arial Bold Italic", 12);
+		c.xAxis().setTitle("X", "Arial Bold", fontSize * 1.25);
+		c.yAxis().setTitle("Y", "Arial Bold", fontSize * 1.25);
 
 		// Set x-axis and y-axis labels to use Arial Bold font
-		c.xAxis().setLabelStyle("Arial Bold");
-		c.yAxis().setLabelStyle("Arial Bold");
+		c.xAxis().setLabelStyle("Arial Bold").setFontSize(fontSize);
+		c.yAxis().setLabelStyle("Arial Bold").setFontSize(fontSize);
+		//c.yAxis().setLabelStyle("Arial Bold");
 
 		// When auto-scaling, use tick spacing of 40 pixels as a guideline
 		c.yAxis().setTickDensity(40);
@@ -97,24 +100,20 @@ public class ChartView implements Runnable {
 		
 		// Add a color axis (the legend) in which the left center point is anchored
 		// at (495, 240). Set the length to 370 pixels and the labels on the right side.
-		ColorAxis cAxis = layer.setColorAxis(420, 215, Chart.Left, 320, Chart.Right);
+		ColorAxis cAxis = layer.setColorAxis(475, 220, Chart.Left, 400, Chart.Right);
 
 		// Add a bounding box to the color axis using light grey (eeeeee) as the
 		// background and dark grey (444444) as the border.
 		//cAxis.setBoundingBox(0xeeeeee, 0x444444);
 
-		cAxis.setLabelStyle().setFontSize(fontSize);
-		
+		// Set color axis labels to use Arial Bold font
+		cAxis.setLabelStyle("Arial Bold").setFontSize(fontSize);
 		
 		// Add a title to the color axis using 12 points Arial Bold Italic font
 		//cAxis.setTitle("fitness", "Arial Bold Italic", 12);
 
-		// Set color axis labels to use Arial Bold font
-		cAxis.setLabelStyle("Arial Bold");
-
 		// Use smooth gradient coloring
 		cAxis.setColorGradient(true);
-		
 		return c.makeImage();
 	}
 	
